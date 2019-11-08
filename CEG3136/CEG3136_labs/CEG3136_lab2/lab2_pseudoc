@@ -1,0 +1,57 @@
+//Pseudo C Code for pollReadKey()
+
+char pollReadKey() {
+	char ch = NOKEY; // initialize as no key
+	int count = POLLCOUNT; // number of checks to be done
+	PORTA = 0x0f; // resets PORTA
+	do {
+		if (PORTA != 0x0f){ //check for key press
+			delayms(1);
+			if (PORTA != 0x0f){ //check again
+				ch = readKey(); // reads key and converts it to ASCII
+			break; //end loop
+		}
+	}
+	count --;
+	} while (count);
+	return ch;
+}
+
+//Pseudo C Code for readKey()
+
+byte readKey (){
+	byte ch;
+	do{
+		PORTA = 0x0F; //set all output pins PA4-PA7 (rows of keypad) to 0
+		//bits PA0-PA3 (columns of keypad) are 1 until a key is pressed
+		while (PORTA == 0x0F){ //check for leading edge
+			code = PORTA; //ket keycode input
+			delayms(10); //delay for debounce of button
+		}
+	}
+	while (code != PORTA){ //start again when PORTA changes
+		code = readKeyCOde(); //call readKeyCode to get keycode
+		PORTA = 0x0F; //set all output pins PA4-PA7 (rows of keypad) to 0
+	{
+	while (PORTA != 0x0F){ //wait for trailing edge
+		delayms(10); //delay for debounce
+	}
+	ch = translate(code); //call translate to get ASCII code
+	return (ch);
+}
+
+//Pseudo C Code for delayms()
+
+void delayms (unsigned int milli){
+	unsigned int delayCycles;
+	while (milli--){
+		delayCycle = 0x12BD; //number of cylce for a 1 MS delay
+	}
+	do {
+		//NOP
+	}
+	while (--delayCycles){
+		//extra NOP
+	}
+	return;
+}		
